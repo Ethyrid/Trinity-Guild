@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69ce61daa7e21fb4f9c9129da514974d, type: 3}
+  m_Name: Class_Mage
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterClassData
+  className: Mago
+  description: 
+  resourceLogic: {fileID: 11400000, guid: 3cdcc3df80a874946afae9fd9272db5d, type: 2}
+  startingStats:
+    vitality: 6
+    resistance: 5
+    mind: 8
+    strength: 4
+    dexterity: 4
+    intelligence: 8
+    faith: 4
+    luck: 1
