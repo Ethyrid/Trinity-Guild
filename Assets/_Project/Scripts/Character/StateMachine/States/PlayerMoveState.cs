@@ -28,6 +28,23 @@ public class PlayerMoveState : PlayerBaseState
             return;
         }
 
+        // --- Lógica de Transición ---
+
+        // Prioridad 1: Atacar
+        // TODO: Añadir comprobación de estamina
+        if (_stateMachine.IsAttackPressed /* && _stateMachine.CharacterStats.HasEnoughStamina(10f) */)
+        {
+            _stateMachine.SwitchState(new PlayerAttackState(_stateMachine));
+            return;
+        }
+
+        // Prioridad 2: Dejar de moverse
+        if (_stateMachine.MoveInput == Vector2.zero)
+        {
+            _stateMachine.SwitchState(new PlayerIdleState(_stateMachine));
+            return;
+        }
+
         // --- Lógica del Estado (Mover al jugador) ---
         Vector3 moveDirection = new Vector3(_stateMachine.MoveInput.x, 0, _stateMachine.MoveInput.y);
 

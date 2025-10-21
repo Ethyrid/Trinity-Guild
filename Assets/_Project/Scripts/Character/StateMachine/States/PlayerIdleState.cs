@@ -26,6 +26,23 @@ public class PlayerIdleState : PlayerBaseState
             return;
         }
 
+        // --- Lógica de Transición ---
+
+        // Prioridad 1: Atacar
+        // TODO: Añadir comprobación de estamina
+        if (_stateMachine.IsAttackPressed /* && _stateMachine.CharacterStats.HasEnoughStamina(10f) */)
+        {
+            _stateMachine.SwitchState(new PlayerAttackState(_stateMachine));
+            return;
+        }
+
+        // Prioridad 2: Moverse
+        if (_stateMachine.MoveInput != Vector2.zero)
+        {
+            _stateMachine.SwitchState(new PlayerMoveState(_stateMachine));
+            return;
+        }
+
         // --- Lógica del Estado (si la hay) ---
         // (En Idle, usualmente no hay lógica en Tick)
     }

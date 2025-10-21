@@ -23,6 +23,15 @@ public class CharacterStats : MonoBehaviour
 
     // Referencia al Recurso de Clase (Maná, Ira...)
     // Nota: Instanciamos el SO para que sea único para este personaje
+
+    [Header("Recursos Actuales")]
+    public float CurrentHealth { get; private set; }
+    public float CurrentStamina { get; private set; }
+    // Nota: El 'CurrentResource' (Maná/Ira) ya es manejado por 'Resource.CurrentValue'
+
+    [Header("Regeneración")]
+    [SerializeField] private float staminaRegenPerSecond = 5.0f;
+
     public ResourceLogicBase Resource { get; private set; }
 
     private void Awake()
@@ -51,6 +60,10 @@ public class CharacterStats : MonoBehaviour
 
         // 3. Calcular Estadísticas Derivadas
         CalculateDerivedStats();
+
+        // 4. Setear valores iniciales
+        CurrentHealth = MaxHealth;
+        CurrentStamina = MaxStamina;
     }
 
     private void CalculateDerivedStats()
@@ -72,4 +85,36 @@ public class CharacterStats : MonoBehaviour
     // TODO: Añadir función "LevelUpAttribute(BaseAttribute attribute)"
     // que será llamada por el "Entrenador" en la Taberna
     // y que gastará XP General (GDD 7.2.2).
+
+    private void Update()
+    {
+        // TODO: Mover esto a un estado "NoCombate" o lógica similar
+        // Por ahora, regeneramos estamina pasivamente.
+        RegenerateStamina(Time.deltaTime);
+    }
+
+    private void RegenerateStamina(float deltaTime)
+    {
+        if (CurrentStamina < MaxStamina)
+        {
+            CurrentStamina += staminaRegenPerSecond * deltaTime;
+            CurrentStamina = Mathf.Clamp(CurrentStamina, 0, MaxStamina);
+        }
+    }
+
+    // --- Métodos Públicos de Combate ---
+
+    public bool HasEnoughStamina(float amountToSpend)
+    {
+        return CurrentStamina >= amountToSpend;
+    }
+
+    public void SpendStamina(float amount)
+    {
+        if (HasEnoughStamina(amount))
+        {
+            CurrentStamina -= amount;
+        }
+    }
+
 }

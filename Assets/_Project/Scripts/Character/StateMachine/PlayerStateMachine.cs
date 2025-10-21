@@ -19,6 +19,7 @@ public class PlayerStateMachine : MonoBehaviour
 
     // Propiedad para el input (la moveremos a una interfaz en el futuro)
     public Vector2 MoveInput { get; private set; }
+    public bool IsAttackPressed { get; private set; }
 
     // Referencia a nuestro asset de Input Actions
     private PlayerInputActions _inputActions;
@@ -54,6 +55,9 @@ public class PlayerStateMachine : MonoBehaviour
     {
         // Leer el input cada frame
         MoveInput = _inputActions.Player.Move.ReadValue<Vector2>();
+
+        // Comprobar si el botón de ataque fue presionado *en este frame*
+        IsAttackPressed = _inputActions.Player.Attack.WasPressedThisFrame();
 
         // Delegar la lógica de Update al estado actual
         _currentState?.Tick(Time.deltaTime);
